@@ -65,9 +65,12 @@ int foundDLL = 0;
 			input1 = ReadDigitalChannel(2);
 			
 		} while(input1 != 1);
-	
+		
+		SetDigitalChannel(2);
 		
 		 ResetCounter(2); 
+		 system("Pause");
+		 
 		 ClearAllDigital(); 
          CloseDevice();
          FreeLibrary(hDLL);
