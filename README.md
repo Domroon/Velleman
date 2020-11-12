@@ -7,3 +7,5 @@ To join in to the project:
 1. Download and install Git-Bash (https://gitforwindows.org/)
 2. Make a Pull request or open a issue to improve and develop the program.
 
+![GitHub Logo](/images/logo.png)
+Format: ![Alt Text](url)
