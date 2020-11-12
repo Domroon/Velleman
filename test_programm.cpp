@@ -59,12 +59,15 @@ int foundDLL = 0;
 	{   
 		
 		cout <<endl << "Karte testen"<<endl;
-		SetDigitalChannel(2);
-		// Karte wird getestet	 
-		// Ausgabe 
-		for (int i=0; i < 20000; i++){ cout << i; }
+		int j = 0;
+		while(j <= 8)
 		{
+			SetDigitalChannel(j);
+			for (int i=0; i < 5000; i++){ cout << i; }
+			ClearAllDigital();
+			j++;
 		}
+	
 		
 		 ResetCounter(2); 
 		 ClearAllDigital(); 
