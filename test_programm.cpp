@@ -59,10 +59,11 @@ int foundDLL = 0;
 	{   
 		
 		cout <<endl << "Karte testen"<<endl;
+		SetDigitalChannel(2);
 		// Karte wird getestet	 
 		// Ausgabe 
 		 ResetCounter(2); 
-		 ClearAllDigital(); 
+		 //ClearAllDigital(); 
          CloseDevice();
          FreeLibrary(hDLL);
          system("pause");
