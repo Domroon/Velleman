@@ -1,5 +1,5 @@
 # Velleman
-Test communication to "K8055N USB Interface Board" from Velleman with C++ and Python
+Test communication to "K8055N USB Interface Board" from Velleman with C++
 Product Page: https://www.velleman.eu/products/view/?id=404880
 
 
