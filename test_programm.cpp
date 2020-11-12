@@ -62,8 +62,12 @@ int foundDLL = 0;
 		SetDigitalChannel(2);
 		// Karte wird getestet	 
 		// Ausgabe 
+		for (int i=0; i < 20000; i++){ cout << i; }
+		{
+		}
+		
 		 ResetCounter(2); 
-		 //ClearAllDigital(); 
+		 ClearAllDigital(); 
          CloseDevice();
          FreeLibrary(hDLL);
          system("pause");
