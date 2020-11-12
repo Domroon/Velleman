@@ -59,14 +59,28 @@ int foundDLL = 0;
 	{   
 		
 		cout <<endl << "Karte testen"<<endl;
-		int input1 = 0;
+		int input1 = 0, input2 = 0, input3 = 0;
 		do
 		{
-			input1 = ReadDigitalChannel(2);
+			input1 = ReadDigitalChannel(1); //break the loop
+			
+			input2 = ReadDigitalChannel(2);
+	
+			if(input2 == 1)
+			{
+				SetDigitalChannel(2);
+				while(input3 != 1)
+				{
+					input3 = ReadDigitalChannel(3);
+					if(input3 == 1)
+					{
+						ClearAllDigital();
+					}
+				}
+			}
 			
 		} while(input1 != 1);
-		
-		SetDigitalChannel(2);
+	
 		
 		 ResetCounter(2); 
 		 system("Pause");
