@@ -1,8 +1,7 @@
-
 #include <cstdlib>
 #include <windows.h>
 #include <iostream>
-#include<time.h>
+#include <time.h>
 #include <unistd.h>
 #include<stdio.h>
 #include "k8055.cpp"
@@ -27,12 +26,12 @@ int foundDLL = 0;
     h = init();
 	if (!h)
 	{
-		printf("DLL found");
+		printf("DLL found\n");
 		foundDLL = 1;
 	}
 	else
 	{
-			printf("DLL not found");return 0;
+			printf("DLL not found\n");return 0;
 
 	}
 	if (foundDLL)
@@ -51,23 +50,29 @@ int foundDLL = 0;
 
 
 // AB HIER STEHT IHR CODE!!
-//HIER EIN  BEISPIEL VON MIR
 
 
 	if (foundDLL)
 	
 	{   
+		time_t timer;
+		double t_start, t_stop, t_diff;
+		int user_input;
+		cout << endl << "Welcome to train-speed measure" << endl;
+		cout << "Press Enter something to start stopwatch" << endl;
+		cin >> user_input;
+		t_start = time(&timer);
+		cout << "Press Enter something again to stop stopwatch" << endl;
+		cin >> user_input;
+		t_stop = time(&timer);
+		t_diff = t_stop - t_start;
+		cout << t_diff << " s" << endl;
 		
-		cout <<endl << "Karte testen"<<endl;
-		// Karte wird getestet	 
-		// Ausgabe 
 		 ResetCounter(2); 
 		 ClearAllDigital(); 
          CloseDevice();
          FreeLibrary(hDLL);
-         system("pause");
+         //system("pause");
     }
     
 }
-
-
