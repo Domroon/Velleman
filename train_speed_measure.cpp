@@ -41,12 +41,46 @@ int board_init(int h, int foundDLL)
 
 bool capture_input(int input)
 {
+	cout << "waiting for the train ..." << endl;
 	bool capture = false;
 	do
 	{
 		capture = ReadDigitalChannel(input);
 		
 	} while(capture != true);
+	cout << "train detected!" << endl;
+}
+
+double get_time()
+{
+	time_t timer;
+	double get_time = 0;
+	get_time = time(&timer);
+	return get_time;
+}
+
+double calculate_speed(double start_time, double end_time, double round_length)
+{
+	double speed = 0;
+	double t_diff = 0;
+	
+	round_length = round_length/100; 	//convert cm in m
+	round_length = round_length/1000; 	//convert m in km
+	
+	
+	//calculate time of one round
+	t_diff = end_time - start_time;
+	t_diff = t_diff/3600; //convert s in h
+	
+	//calculate speed
+	speed = round_length/t_diff;
+	
+	return speed;
+}
+
+void show_speed(double speed)
+{
+	cout << endl << "Speed: " << speed << " km/h" << endl;
 }
 
 int main(int argc, char *argv[])
@@ -65,6 +99,7 @@ int main(int argc, char *argv[])
 		unsigned int sleep_time = 1; //in seconds
 		double round_length;
 		double speed;
+		double first_round_start_time, start_time, end_time;
 		
 		//Information
 		cout << endl << "Welcome to train-speed measure" << endl;
@@ -77,30 +112,35 @@ int main(int argc, char *argv[])
 		cin >> round_length;
 		
 		//start stopwatch
-		cout << endl << "Waiting for train at input-channel: " << sensor_channel << endl;
-		capture_input(sensor_channel); //waiting for sensor interaction
-		t_start = time(&timer);
-		cout << endl << "Detect train at input-channel: " << sensor_channel << endl;
+		capture_input(sensor_channel);
+		first_round_start_time = get_time();
 		sleep(sleep_time); //digital_input needs time to reset
 		
 		//stop stopwatch
-		cout << endl  << "Waiting for train at input-channel: " << sensor_channel << endl;
-		capture_input(sensor_channel); //waiting for sensor interaction
-		t_stop = time(&timer);
-		cout << endl  << "Detect train at input-channel: " << sensor_channel << endl;
-		
-		//calculate time of one round
-		t_diff = t_stop - t_start;
-		cout << t_diff << " s" << endl;
+		capture_input(sensor_channel);
+		end_time = get_time();
 		
 		//calculate speed
-		round_length = round_length/100; //convert cm in m
-		round_length = round_length/1000; //convert m in km
-		t_diff = t_diff/3600; //convert s in h
-		speed = round_length/t_diff;
+		speed = calculate_speed(first_round_start_time, end_time, round_length);
 		
-		//Output
-		cout << endl << "Speed: " << speed << " km/h" << endl;
+		//show speed
+		show_speed(speed);
+		
+		while(1 == 1)
+		{
+			start_time = end_time; //take last stop time as start-time
+			
+			//stop stopwatch when a train is detected
+			capture_input(sensor_channel);
+			end_time = get_time();
+			sleep(sleep_time); //digital_input needs time to reset
+			
+			//calculate speed
+			speed = calculate_speed(start_time, end_time, round_length);
+			
+			//show speed
+			show_speed(speed);
+		}
 		
 		ClearAllDigital(); 
         CloseDevice();
