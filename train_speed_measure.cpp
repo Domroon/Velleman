@@ -63,26 +63,48 @@ int main(int argc, char *argv[])
 		double t_start, t_stop, t_diff;
 		int sensor_channel;
 		unsigned int sleep_time = 1; //in seconds
+		double round_length;
+		double speed;
 		
+		//Information
 		cout << endl << "Welcome to train-speed measure" << endl;
+		cout << "This program can measure the speed from a train thats drives in a circle" << endl;
+		
+		//get data from user
 		cout << "What Input-Channel to you want to use to detect the train? (1-4)" << endl;
 		cin >> sensor_channel;
+		cout << "How long is one round in [cm]?" << endl;
+		cin >> round_length;
 		
-		cout << "Press Input " << sensor_channel << " to start the stopwatch" << endl;
+		//start stopwatch
+		cout << endl << "Waiting for train at input-channel: " << sensor_channel << endl;
 		capture_input(sensor_channel); //waiting for sensor interaction
 		t_start = time(&timer);
+		cout << endl << "Detect train at input-channel: " << sensor_channel << endl;
 		sleep(sleep_time); //digital_input needs time to reset
 		
-		cout << "Press Input " << sensor_channel << " again to stop the stopwatch" << endl;
+		//stop stopwatch
+		cout << endl  << "Waiting for train at input-channel: " << sensor_channel << endl;
 		capture_input(sensor_channel); //waiting for sensor interaction
 		t_stop = time(&timer);
+		cout << endl  << "Detect train at input-channel: " << sensor_channel << endl;
 		
+		//calculate time of one round
 		t_diff = t_stop - t_start;
 		cout << t_diff << " s" << endl;
-		 
-		 ClearAllDigital(); 
-         CloseDevice();
-         FreeLibrary(hDLL);
-         //system("pause");
+		
+		//calculate speed
+		round_length = round_length/100; //convert cm in m
+		round_length = round_length/1000; //convert m in km
+		t_diff = t_diff/3600; //convert s in h
+		speed = round_length/t_diff;
+		
+		//Output
+		cout << endl << "Speed: " << speed << " km/h" << endl;
+		
+		ClearAllDigital(); 
+        CloseDevice();
+        FreeLibrary(hDLL);
+        //system("pause");
     }
 }
