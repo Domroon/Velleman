@@ -76,7 +76,7 @@ int foundDLL = 0;
 				ClearAllDigital(); 
 			}
 			
-		} while(1 = 1);
+		} while(1 == 1);
 	
 		
 		 ResetCounter(2); 
