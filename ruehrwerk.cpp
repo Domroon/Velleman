@@ -39,7 +39,8 @@ int board_init(int h, int foundDLL)
 	}
 }
 
-void startscreen(){
+void startscreen()
+{
 	
 	cout << endl;
 	cout << "**************************************************" << endl;
@@ -164,7 +165,7 @@ void left_run(double time, bool automatic_mode)
 	}
 }
 
-void automatic_operation(double time)
+void automatic_mode(double time)
 {
 	//The many if-querys are necessary to stop the agitator reliable
 	printf("**automatic mode**\n");
@@ -250,7 +251,7 @@ int main(int argc, char *argv[])
 		{
 			if(ReadAllChannel() == 1)
 			{
-				automatic_operation(2);
+				automatic_mode(2);
 				printf("stop\n");
 				startscreen();
 				sleep(1); //input need time to reset
