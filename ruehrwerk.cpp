@@ -39,6 +39,18 @@ int board_init(int h, int foundDLL)
 	}
 }
 
+void startscreen(){
+	
+	cout << endl;
+	cout << "**************************************************" << endl;
+	cout << "*        Automatic agitator Rotana               *" << endl;
+	cout << "*------------------------------------------------*" << endl;
+	cout << "*     S1: Automatic Mode - S2: Hand Mode         *" << endl;
+	cout << "*   S3: Right run - S4: Left run - S5: Stop      *" << endl;
+	cout << "**************************************************" << endl;
+	cout << " " << endl;  
+}
+
 int ReadAllChannel()
 {
 	bool s1, s2, s3, s4, s5;
@@ -128,7 +140,9 @@ void left_run(double time)
 
 void automatic_operation(double time)
 {
-	printf("automatic operation\n");
+	//The many if-querys are necessary to stop the agitator reliable
+	printf("**automatic operation**\n");
+	printf("\n");
 	sleep(0.1); //input need time to reset
 	
 	while(ReadAllChannel() != 5)
@@ -161,16 +175,17 @@ int main(int argc, char *argv[])
 
 	if (board_init(h, foundDLL)) //Function initialize the board
 	{   
-		// channel for right run: 1
-		// channel for left run: 2
+		startscreen();
 		
 		ClearAllDigital();
+		
 		while(1 == 1) //main loop
 		{
 			if(ReadAllChannel() == 1)
 			{
 				automatic_operation(2);
 				printf("stop\n");
+				startscreen();
 				sleep(1); ////input need time to reset
 			}
 			if(ReadAllChannel() == 2)
