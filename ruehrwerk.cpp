@@ -88,15 +88,18 @@ void right_run(double time)
 	end_time = 0;
 	t_diff = 0;
 	printf("right run\n");
+	SetDigitalChannel(1);
 	while(t_diff != time)
 	{
 		end_time = get_time();
 		t_diff = end_time - start_time;
 		if(ReadAllChannel() == 5)
 		{
+			ClearAllDigital();
 			break;
 		}
 	}
+	ClearDigitalChannel(1);
 }
 
 void left_run(double time)
@@ -109,32 +112,41 @@ void left_run(double time)
 	end_time = 0;
 	t_diff = 0;
 	printf("left run\n");
+	SetDigitalChannel(2);
 	while(t_diff != time)
 	{
 		end_time = get_time();
 		t_diff = end_time - start_time;
 		if(ReadAllChannel() == 5)
 		{
+			ClearAllDigital();
 			break;
 		}
 	}
+	ClearDigitalChannel(2);
 }
 
-void automatic_operation()
+void automatic_operation(double time)
 {
 	printf("automatic operation\n");
-	sleep(0.1);
+	sleep(0.1); //input need time to reset
 	
 	while(ReadAllChannel() != 5)
 	{
 		
-		right_run(2);
-		left_run(2);
+		right_run(time);
 		
 		if(ReadAllChannel() == 5)
-			{
-				break;
-			}
+		{
+			break;
+		}
+		
+		left_run(time);
+		
+		if(ReadAllChannel() == 5)
+		{
+			break;
+		}
 	}
 }
 
@@ -149,13 +161,17 @@ int main(int argc, char *argv[])
 
 	if (board_init(h, foundDLL)) //Function initialize the board
 	{   
+		// channel for right run: 1
+		// channel for left run: 2
+		
 		ClearAllDigital();
 		while(1 == 1) //main loop
 		{
 			if(ReadAllChannel() == 1)
 			{
-				automatic_operation();
-				sleep(1);
+				automatic_operation(2);
+				printf("stop\n");
+				sleep(1); ////input need time to reset
 			}
 			if(ReadAllChannel() == 2)
 			{
