@@ -90,7 +90,7 @@ double get_time()
 	return get_time;
 }
 
-void right_run(double time)
+void right_run(double time, bool automatic_mode)
 {
 	double start_time = 0;
 	double end_time = 0;
@@ -101,7 +101,7 @@ void right_run(double time)
 	t_diff = 0;
 	printf("right run\n");
 	SetDigitalChannel(1);
-	while(t_diff != time)
+	while(t_diff != time && automatic_mode == true)
 	{
 		end_time = get_time();
 		t_diff = end_time - start_time;
@@ -111,10 +111,14 @@ void right_run(double time)
 			break;
 		}
 	}
-	ClearDigitalChannel(1);
+	
+	if(automatic_mode == true)
+	{
+		ClearDigitalChannel(1);
+	}
 }
 
-void left_run(double time)
+void left_run(double time, bool automatic_mode)
 {
 	double start_time = 0;
 	double end_time = 0;
@@ -125,7 +129,7 @@ void left_run(double time)
 	t_diff = 0;
 	printf("left run\n");
 	SetDigitalChannel(2);
-	while(t_diff != time)
+	while(t_diff != time && automatic_mode == true)
 	{
 		end_time = get_time();
 		t_diff = end_time - start_time;
@@ -135,31 +139,46 @@ void left_run(double time)
 			break;
 		}
 	}
-	ClearDigitalChannel(2);
+	
+	if(automatic_mode == true)
+	{
+		ClearDigitalChannel(2);
+	}
 }
 
 void automatic_operation(double time)
 {
 	//The many if-querys are necessary to stop the agitator reliable
-	printf("**automatic operation**\n");
+	printf("**automatic mode**\n");
 	printf("\n");
 	sleep(0.1); //input need time to reset
 	
 	while(ReadAllChannel() != 5)
 	{
 		
-		right_run(time);
+		right_run(time, true);
 		
 		if(ReadAllChannel() == 5)
 		{
 			break;
 		}
 		
-		left_run(time);
+		left_run(time, true);
 		
 		if(ReadAllChannel() == 5)
 		{
 			break;
+		}
+	}
+}
+
+void hand_mode()
+{
+	printf("**hand mode**\n");
+	while(ReadAllChannel() != 5)
+	{
+		if(ReadAllChannel() == 3)
+		{
 		}
 	}
 }
@@ -190,7 +209,7 @@ int main(int argc, char *argv[])
 			}
 			if(ReadAllChannel() == 2)
 			{
-				printf("2");
+				hand_mode();
 				sleep(1);
 			}
 			if(ReadAllChannel() == 3)
