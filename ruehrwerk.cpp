@@ -45,7 +45,7 @@ void startscreen(){
 	cout << "**************************************************" << endl;
 	cout << "*        Automatic agitator Rotana               *" << endl;
 	cout << "*------------------------------------------------*" << endl;
-	cout << "*     S1: Automatic Mode - S2: Hand Mode         *" << endl;
+	cout << "*     S1: Automatic Mode - S2: Manual Mode         *" << endl;
 	cout << "*   S3: Right run - S4: Left run - S5: Stop      *" << endl;
 	cout << "**************************************************" << endl;
 	cout << " " << endl;  
@@ -172,14 +172,36 @@ void automatic_operation(double time)
 	}
 }
 
-void hand_mode()
+void manual_mode()
 {
-	printf("**hand mode**\n");
-	while(ReadAllChannel() != 5)
+	bool automatic_mode = false;
+	while(ReadAllChannel() != 1 && automatic_mode == false)
 	{
-		if(ReadAllChannel() == 3)
+		printf("**manual mode**\n");
+		while(ReadAllChannel() != 5)
 		{
+			if(ReadAllChannel() == 3)
+			{
+				right_run(0.1, false);
+				sleep(1);
+			}
+			
+			if(ReadAllChannel() == 4)
+			{
+				left_run(0.1, false);
+				sleep(1);
+			}
+			
+			if(ReadAllChannel() == 1)
+			{
+				automatic_mode = true;
+				break;
+			}
 		}
+		printf("stop\n");
+		ClearAllDigital();
+		startscreen();
+		sleep(1);
 	}
 }
 
@@ -209,7 +231,7 @@ int main(int argc, char *argv[])
 			}
 			if(ReadAllChannel() == 2)
 			{
-				hand_mode();
+				manual_mode();
 				sleep(1);
 			}
 			if(ReadAllChannel() == 3)
