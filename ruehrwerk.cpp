@@ -78,43 +78,59 @@ double get_time()
 	return get_time;
 }
 
-void automatic_operation()
+void right_run(double time)
 {
 	double start_time = 0;
 	double end_time = 0;
 	double t_diff = 0;
+	
+	start_time = get_time();
+	end_time = 0;
+	t_diff = 0;
+	printf("right run\n");
+	while(t_diff != time)
+	{
+		end_time = get_time();
+		t_diff = end_time - start_time;
+		if(ReadAllChannel() == 5)
+		{
+			break;
+		}
+	}
+}
+
+void left_run(double time)
+{
+	double start_time = 0;
+	double end_time = 0;
+	double t_diff = 0;
+	
+	start_time = get_time();
+	end_time = 0;
+	t_diff = 0;
+	printf("left run\n");
+	while(t_diff != time)
+	{
+		end_time = get_time();
+		t_diff = end_time - start_time;
+		if(ReadAllChannel() == 5)
+		{
+			break;
+		}
+	}
+}
+
+void automatic_operation()
+{
 	printf("automatic operation\n");
 	sleep(0.1);
 	
-	while(1 == 1)
+	while(ReadAllChannel() != 5)
 	{
-		start_time = get_time();
-		end_time = 0;
-		t_diff = 0;
-		printf("right run\n");
-		while(t_diff != 2)
-		{
-			end_time = get_time();
-			t_diff = end_time - start_time;
-			if(ReadAllChannel() == 5)
-			{
-				break;
-			}
-		}
 		
-		start_time = get_time();
-		end_time = 0;
-		t_diff = 0;
-		printf("left run\n");
-		while(t_diff != 2)
-		{
-			end_time = get_time();
-			t_diff = end_time - start_time;
-			if(ReadAllChannel() == 5)
-			{
-				break;
-			}
-		}
+		right_run(2);
+		left_run(2);
+		
 		if(ReadAllChannel() == 5)
 			{
 				break;
