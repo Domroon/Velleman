@@ -70,6 +70,58 @@ int ReadAllChannel()
 	}
 }
 
+double get_time()
+{
+	time_t timer;
+	double get_time = 0;
+	get_time = time(&timer);
+	return get_time;
+}
+
+void automatic_operation()
+{
+	double start_time = 0;
+	double end_time = 0;
+	double t_diff = 0;
+	printf("automatic operation\n");
+	sleep(0.1);
+	
+	while(1 == 1)
+	{
+		start_time = get_time();
+		end_time = 0;
+		t_diff = 0;
+		printf("right run\n");
+		while(t_diff != 2)
+		{
+			end_time = get_time();
+			t_diff = end_time - start_time;
+			if(ReadAllChannel() == 5)
+			{
+				break;
+			}
+		}
+		
+		start_time = get_time();
+		end_time = 0;
+		t_diff = 0;
+		printf("left run\n");
+		while(t_diff != 2)
+		{
+			end_time = get_time();
+			t_diff = end_time - start_time;
+			if(ReadAllChannel() == 5)
+			{
+				break;
+			}
+		}
+		if(ReadAllChannel() == 5)
+			{
+				break;
+			}
+	}
+}
+
 int main(int argc, char *argv[])
 {
     int CardAddress;
@@ -86,7 +138,7 @@ int main(int argc, char *argv[])
 		{
 			if(ReadAllChannel() == 1)
 			{
-				printf("1");
+				automatic_operation();
 				sleep(1);
 			}
 			if(ReadAllChannel() == 2)
