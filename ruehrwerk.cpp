@@ -112,6 +112,15 @@ void right_run(double time, bool automatic_mode)
 		}
 	}
 	
+	while(automatic_mode == false)
+	{
+		if(ReadAllChannel() == 5)
+		{
+			ClearAllDigital();
+			break;
+		}
+	}
+	
 	if(automatic_mode == true)
 	{
 		ClearDigitalChannel(1);
@@ -133,6 +142,15 @@ void left_run(double time, bool automatic_mode)
 	{
 		end_time = get_time();
 		t_diff = end_time - start_time;
+		if(ReadAllChannel() == 5)
+		{
+			ClearAllDigital();
+			break;
+		}
+	}
+	
+	while(automatic_mode == false)
+	{
 		if(ReadAllChannel() == 5)
 		{
 			ClearAllDigital();
@@ -183,13 +201,17 @@ void manual_mode()
 			if(ReadAllChannel() == 3)
 			{
 				right_run(0.1, false);
+				printf("stop\n");
 				sleep(1);
+				break;
 			}
 			
 			if(ReadAllChannel() == 4)
 			{
 				left_run(0.1, false);
+				printf("stop\n");
 				sleep(1);
+				break;
 			}
 			
 			if(ReadAllChannel() == 1)
@@ -198,10 +220,14 @@ void manual_mode()
 				break;
 			}
 		}
-		printf("stop\n");
 		ClearAllDigital();
 		startscreen();
 		sleep(1);
+		
+		if(ReadAllChannel() == 1)
+		{
+			automatic_mode = true;
+		}
 	}
 }
 
@@ -227,27 +253,12 @@ int main(int argc, char *argv[])
 				automatic_operation(2);
 				printf("stop\n");
 				startscreen();
-				sleep(1); ////input need time to reset
+				sleep(1); //input need time to reset
 			}
 			if(ReadAllChannel() == 2)
 			{
 				manual_mode();
-				sleep(1);
-			}
-			if(ReadAllChannel() == 3)
-			{
-				printf("3");
-				sleep(1);
-			}
-			if(ReadAllChannel() == 4)
-			{
-				printf("4");
-				sleep(1);
-			}
-			if(ReadAllChannel() == 5)
-			{
-				printf("5");
-				sleep(1);
+				sleep(1); //input need time to reset
 			}
 		}
 		
