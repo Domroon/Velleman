@@ -46,7 +46,7 @@ void startscreen()
 	cout << "**************************************************" << endl;
 	cout << "*        Automatic agitator Rotana               *" << endl;
 	cout << "*------------------------------------------------*" << endl;
-	cout << "*     S1: Automatic Mode - S2: Manual Mode         *" << endl;
+	cout << "*     S1: Automatic Mode - S2: Manual Mode       *" << endl;
 	cout << "*   S3: Right run - S4: Left run - S5: Stop      *" << endl;
 	cout << "**************************************************" << endl;
 	cout << " " << endl;  
