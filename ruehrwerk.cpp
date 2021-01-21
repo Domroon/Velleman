@@ -165,12 +165,16 @@ void left_run(double time, bool automatic_mode)
 	}
 }
 
-void automatic_mode(double time)
+void automatic_mode(double time, double stir_total_time)
 {
 	//The many if-querys are necessary to stop the agitator reliable
 	printf("**automatic mode**\n");
 	printf("\n");
 	sleep(0.1); //input need time to reset
+	
+	double start_stir_time = get_time();
+	double end_stir_time = 0;
+	double stir_time_diff = 0;
 	
 	while(ReadAllChannel() != 5)
 	{
@@ -185,6 +189,14 @@ void automatic_mode(double time)
 		left_run(time, true);
 		
 		if(ReadAllChannel() == 5)
+		{
+			break;
+		}
+		
+		end_stir_time = get_time();
+		stir_time_diff = end_stir_time - start_stir_time;
+		
+		if(stir_time_diff >= stir_total_time)
 		{
 			break;
 		}
@@ -251,7 +263,7 @@ int main(int argc, char *argv[])
 		{
 			if(ReadAllChannel() == 1)
 			{
-				automatic_mode(2);
+				automatic_mode(2, 10);
 				printf("stop\n");
 				startscreen();
 				sleep(1); //input need time to reset
